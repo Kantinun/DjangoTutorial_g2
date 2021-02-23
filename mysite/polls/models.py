@@ -9,6 +9,7 @@ class Question(models.Model):
     question_text = models.CharField(max_length=200) #เก็บคำถาม
     pub_date = models.DateTimeField('date published') #เก็บวันที่ทำการสร้างคำถาม
     allVote = models.IntegerField(default=0)
+    lastVoteTime = models.DateTimeField('LastVoteTime',auto_now_add=True)
 
     def __str__(self):
         return self.question_text #แสดงคำถาม
@@ -45,6 +46,7 @@ class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) #บอกว่าเป็นตัวเลือกของคำถามข้อไหน
     choice_text = models.CharField(max_length=200) #เก็บชื่อตัวเลือก
     votes = models.IntegerField(default=0) #จำนวนการโหวต
+    lastVoteTime = models.DateTimeField('lastVoteTime',auto_now_add=True)
 
     def __str__(self):
         return self.choice_text #แสดงชื่อตัวเลือก

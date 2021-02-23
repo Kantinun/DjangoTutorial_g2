@@ -16,8 +16,7 @@ class IndexView(generic.ListView):
         return Question.objects.all().order_by("-allVote") #แสดงคำถาม
 
 def display(request):
-    context = {'latest_question_list': Question.objects.all().order_by("-allVote")}
-    print(context['latest_question_list'])
+    context = {'latest_question_list': sortQuestion(request)}
     return render(request,"polls/index.html",context)
 
 class DetailView(generic.DetailView):
@@ -50,7 +49,9 @@ def vote(request, question_id):
         selected_choice.votes += 1
         question.allVote += 1
         voteTime = Vote(choice=selected_choice) # บันทึกเวลาที่ทำการ Vote ล่าสุด
-        voteTime.save() # เก็บข้อมูล vote ลงฐานข้อมูล
+        voteTime.save()# เก็บข้อมูล vote ลงฐานข้อมูล
+        question.lastVoteTime = voteTime.time
+        selected_choice.lastVoteTime = voteTime.time
         selected_choice.save() # บันทึกข้อมูล choice ลงฐานข้อมูล
         context = {'question':question,"choices":choices}
         question.save()
@@ -58,3 +59,34 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return render(request,"polls/result.html",context)
+
+def sortResult(request , question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    sort = request.POST.get('sortResult')
+    if sort == "maxToMinV": #max vote to min vote
+        choices = question.choice_set.all().order_by("-votes")
+    elif sort == "minToMaxV": #min vote to max vote
+        choices = question.choice_set.all().order_by("votes")
+    elif sort == "lastToOldT": #last time vote to oldest vote
+        choices = question.choice_set.all().order_by("-lastVoteTime")
+    elif sort == "OldTolastT": #oldest vote to last time vote
+        choices = question.choice_set.all().order_by("lastVoteTime")
+    else: #order by time that publish poll
+        choices = question.choice_set.all()
+        
+    context = {'question':question,"choices":choices}
+    return render(request,"polls/result.html",context)
+
+def sortQuestion(request):
+    question = Question.objects.all()
+    sort = request.POST.get('sort')
+    if sort == "maxToMinV": #max vote to min vote
+        return question.order_by("-allVote")
+    elif sort == "minToMaxV": #min vote to max vote
+        return question.order_by("allVote")
+    elif sort == "lastToOldT": #last time vote to oldest vote
+        return question.order_by("-lastVoteTime")
+    elif sort == "oldToLastT": #oldest vote to last time vote 
+        return question.order_by("lastVoteTime")
+    else: #order by time that publish poll
+        return question
