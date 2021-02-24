@@ -31,10 +31,16 @@ def addWord(request):
             context = {'vocabList': Vocab.objects.all().order_by('vocab_text')}
             return render(request,"vocab/index.html",context)
         else:
-            defi = Definition(def_text= request.POST.get('def'), vocab = Vocab.objects.filter(vocab_text = request.POST.get('vocab'))[0])
-            defi.save()
-            context = {'vocabList': Vocab.objects.all().order_by('vocab_text')}
-            return render(request,"vocab/index.html",context)
+            defList = []
+            for tmp in Definition.objects.all():
+                defList.append(tmp.def_text)
+            if request.POST.get('def') not in defList:
+                defi = Definition(def_text= request.POST.get('def'), vocab = Vocab.objects.filter(vocab_text = request.POST.get('vocab'))[0])
+                defi.save()
+                context = {'vocabList': Vocab.objects.all().order_by('vocab_text')}
+                return render(request,"vocab/index.html",context)
+            else:
+                return HttpResponse("ความหมายนี้ถูกเพิ่มแล้ว>=<")
     return HttpResponse("Please Enter Vocab or Definition")
 
 def search(request):
