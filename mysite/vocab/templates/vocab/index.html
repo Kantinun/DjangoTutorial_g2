@@ -1,3 +1,9 @@
+<form action="{% url 'vocab:index' %}" method="post">
+    {% csrf_token %}
+        <label for="searchword">Search : </label>
+        <input type="text" name="searchword">
+        <input type="submit" value="Search">
+</form>
 {% if vocabList %}
     <a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
     <ul>
@@ -6,6 +12,5 @@
     {% endfor %}
     </ul>
 {% else %}
-    <a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
-    <p>No vocab are available.</p>
+    <h2>ไม่มีคำศัพท์</h2>
 {% endif %}
