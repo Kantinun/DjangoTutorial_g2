@@ -9,7 +9,6 @@ def index(request):
 
 def detail(request, vocab_id):
     vocab = get_object_or_404(Vocab,pk=vocab_id)
-    print(vocab)
     context = {'vocab':vocab}
     return render(request,"vocab/detail.html",context)
 
@@ -25,7 +24,6 @@ def addWord(request):
         vocabText.append(tmp.vocab_text)
     if request.POST.get('vocab') not in forbiddenList and  request.POST.get('def') not in forbiddenList :
         if request.POST.get('vocab') not in vocabText:
-            print("haiyaaa")
             word = Vocab(vocab_text = request.POST.get('vocab'))
             defi = Definition(def_text= request.POST.get('def'), vocab = word)
             word.save()
@@ -37,4 +35,13 @@ def addWord(request):
             defi.save()
             context = {'vocabList': Vocab.objects.all().order_by('vocab_text')}
             return render(request,"vocab/index.html",context)
-    return HttpResponse("เจ้าไม่ได้ Enter Vocab or Definition ไอ้กรวก")
+    return HttpResponse("Please Enter Vocab or Definition")
+
+def search(request):
+    word = request.POST.get('searchword')
+    if word == "":
+        return index(request)
+    else:
+        context = {'vocabList': Vocab.objects.filter(vocab_text = word)}
+        return render(request,"vocab/index.html",context) 
+    
