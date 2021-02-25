@@ -51,3 +51,7 @@ def search(request): # ค้นหาคำที่เราต้องกา
         context = {'vocabList': Vocab.objects.filter(vocab_text = word)}
         return render(request,"vocab/index.html",context) 
     
+def delete (request, vocab_id):
+    vocab = get_object_or_404(Vocab,pk=vocab_id)
+    vocab.delete()
+    return render(request,'vocab/returnHP.html')

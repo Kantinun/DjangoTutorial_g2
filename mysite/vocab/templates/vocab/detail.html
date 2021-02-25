@@ -6,3 +6,8 @@
 <li>{{ def.def_text }}</li><!--รับความหมายของคำศัพท์มา-->
 {% endfor %}
 </ul>
+
+<form action="{%  url 'vocab:delete' vocab.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="DELETE" name="delete">
+</form>
