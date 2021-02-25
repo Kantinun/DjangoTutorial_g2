@@ -4,8 +4,8 @@
         <input type="text" name="searchword">
         <input type="submit" value="Search">
 </form>
+<a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
 {% if vocabList %}
-    <a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
     <ul>
     {% for vocab in vocabList %}
         <li><a href="/vocab/{{ vocab.id }}/">{{ vocab.vocab_text }}</a></li><!--แสดงคำศัพท์-->

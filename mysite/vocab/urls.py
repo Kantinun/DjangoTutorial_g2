@@ -9,5 +9,7 @@ urlpatterns = [
     path('addPage/', views.addWordPage , name='addPage'),   # ไปหน้าเเรก()
     path('add/', views.addWord , name='add'), # ไปหน้าเพิ่มคำศัพท์
     path('search/',views.search, name='search'),# ไปคำสั่งค้นหาข้อมูล()
+    path('<int:vocab_id>/editPage/',views.editWordPage,name='editPage'),
+    path('<int:vocab_id>',views.editWord,name='edit'),
     path('<int:vocab_id>/delete/', views.delete , name='delete'),
 ]
