@@ -61,8 +61,8 @@ def vote(request, question_id):
         return render(request,"polls/result.html",context)
 
 def sortResult(request , question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    sort = request.POST.get('sortResult')
+    question = get_object_or_404(Question, pk=question_id) # get a question
+    sort = request.POST.get('sortResult') # get type sort
     if sort == "maxToMinV": #max vote to min vote
         choices = question.choice_set.all().order_by("-votes")
     elif sort == "minToMaxV": #min vote to max vote
@@ -78,8 +78,8 @@ def sortResult(request , question_id):
     return render(request,"polls/result.html",context)
 
 def sortQuestion(request):
-    question = Question.objects.all()
-    sort = request.POST.get('sort')
+    question = Question.objects.all() # get a question
+    sort = request.POST.get('sort') # get a type sort
     if sort == "maxToMinV": #max vote to min vote
         return question.order_by("-allVote")
     elif sort == "minToMaxV": #min vote to max vote

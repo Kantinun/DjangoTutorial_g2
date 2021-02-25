@@ -8,9 +8,9 @@
     <a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
     <ul>
     {% for vocab in vocabList %}
-        <li><a href="/vocab/{{ vocab.id }}/">{{ vocab.vocab_text }}</a></li>
+        <li><a href="/vocab/{{ vocab.id }}/">{{ vocab.vocab_text }}</a></li><!--แสดงคำศัพท์-->
     {% endfor %}
     </ul>
-{% else %}
+{% else %}<!--ถ้าหากไม่มีคำศัพท์-->
     <h2>ไม่มีคำศัพท์</h2>
 {% endif %}
