@@ -1,8 +1,8 @@
-<h1>{{ vocab.vocab_text }} <a href="{%  url 'vocab:editPage' vocab.id %}" style = "font-size:16px">Edit</a> </h1><!--รับค่าคำศัพท์-->
+<h1>{{ vocab.vocab_text }} <a href="{%  url 'vocab:editWordPage' vocab.id %}" style = "font-size:16px">Edit</a> </h1><!--รับค่าคำศัพท์-->
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <ul>
 {% for def in vocab.definition_set.all %}
-<li>{{ def.def_text }}</li><!--รับความหมายของคำศัพท์มา-->
+<li>{{ def.def_text }} <a href="{%  url 'vocab:editDefpage' vocab.id def.id %}" style = "font-size:12px">Edit</a></li>
 {% endfor %}
 </ul>
 

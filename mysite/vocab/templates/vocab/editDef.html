@@ -1,0 +1,6 @@
+<form action="{% url 'vocab:editDef' vocab.id def.id%}" method="post">
+    {% csrf_token %}
+        <label for="vocab">Definition</label><br>
+        <input type="text" name="def"><br>
+        <input type="submit" value="Edit">
+</form>

@@ -67,3 +67,18 @@ def delete (request, vocab_id):
     vocab = get_object_or_404(Vocab,pk=vocab_id)
     vocab.delete()
     return render(request,'vocab/returnHP.html')
+
+def editDefPage(request,vocab_id, def_id):
+    vocab = get_object_or_404(Vocab,pk=vocab_id)
+    
+    context = {'vocab':vocab, 'def':vocab.definition_set.filter(id = def_id)[0]}
+    return render(request,'vocab/editDef.html', context)
+
+def editDef(request, vocab_id, def_id):
+    vocab = get_object_or_404(Vocab,pk=vocab_id)
+    defi = vocab.definition_set.filter(id = def_id)[0]
+    defi.def_text = request.POST.get('def')
+    defi.save()
+    vocab.save()
+    context = {'vocab':Vocab.objects.all()}
+    return render(request,'vocab/returnHP.html',context)
